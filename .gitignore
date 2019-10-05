@@ -3,9 +3,14 @@
 *.elf
 *.dat
 *.zip
+*.smc
+*.sfc
+*.gcda
+*.a
 *~
 depend
 [Tt]humbs.db
 expsfc.*
 EXPSFC/
 *.so
+PocketSNES
