@@ -3,6 +3,12 @@
 #ifndef _PORT_H_
 #define _PORT_H_
 
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#include <boolean.h>
 #include <limits.h>
 #include <string.h>
 #include <sys/types.h>
@@ -61,8 +67,6 @@ void _splitpath(const char* path, char* drive, char* dir, char* fname, char* ext
  * only if it's aligned. */
 #define FAST_ALIGNED_LSB_WORD_ACCESS
 #endif
-
-#include <libretro.h>
 
 #define ABS(X)   ((X) <  0  ? -(X) : (X))
 #define MIN(A,B) ((A) < (B) ?  (A) : (B))

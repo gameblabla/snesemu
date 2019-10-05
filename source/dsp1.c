@@ -3,8 +3,8 @@
 #include "snes9x.h"
 #include "dsp1.h"
 #include "memmap.h"
-#include "dsp1emu.c"
-#include "dsp2emu.c"
+#include "dsp1emu.h"
+#include "dsp2emu.h"
 
 void (*SetDSP)(uint8_t, uint16_t) = &DSP1SetByte;
 uint8_t(*GetDSP)(uint16_t) = &DSP1GetByte;
@@ -723,7 +723,7 @@ typedef struct
 
 SDSP4 DSP4;
 
-#include "dsp4emu.c"
+#include "dsp4emu.h"
 
 bool DSP4_init = false;
 

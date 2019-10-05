@@ -1,3 +1,11 @@
+SnesEmu fork based on snes9x2005 libretro core by the Retroarch team.
+
+The libretro team had switched the core entirely to C and made it less prone to crashes.
+It made more sense to me to just reuse that work rather than trying to fix up PocketSNES,
+which is now unmaintained.
+
+==========================
+
 snes9x2005 libretro core.
 
 A Super Nintendo emulator core using the libretro API.
