@@ -344,9 +344,9 @@ void init_sfc_setting(void)
    Settings.MultiPlayer5 = true;
    Settings.ControllerOption = SNES_JOYPAD;
 #ifdef USE_BLARGG_APU
-   Settings.SoundSync = false;
+   Settings.SoundSync = true;
 #endif
-   Settings.ApplyCheats = true;
+   Settings.ApplyCheats = false;
    Settings.HBlankStart = (256 * Settings.H_Max) / SNES_HCOUNTER_MAX;
 }
 
@@ -393,16 +393,16 @@ int main(int argc, char* argv[])
 	}
 	
 	snprintf(GameName_emu, sizeof(GameName_emu), "%s", basename(argv[1]));
-	Init_Video();
+	Init_SFC();
 	
-	overclock_cycles = true;
+	Init_Video();
+	Audio_Init();
+	
+	overclock_cycles = false;
 	one_c = 4;
 	slow_one_c = 5;
 	two_c = 6;
-	reduce_sprite_flicker = true;
-	
-	Audio_Init();
-	Init_SFC();
+	reduce_sprite_flicker = false;
 	
 	isloaded = Load_Game_Memory(argv[1]);
 	if (!isloaded)
