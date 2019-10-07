@@ -34,18 +34,18 @@ uint32_t S9xReadJoypad(int32_t port)
 	SDL_Event event;
 	static const uint32_t snes_lut[] =
 	{
-      SNES_B_MASK,
-      SNES_Y_MASK,
-      SNES_SELECT_MASK,
-      SNES_START_MASK,
-      SNES_UP_MASK,
-      SNES_DOWN_MASK,
-      SNES_LEFT_MASK,
-      SNES_RIGHT_MASK,
-      SNES_A_MASK,
-      SNES_X_MASK,
-      SNES_TL_MASK,
-      SNES_TR_MASK
+		SNES_B_MASK,
+		SNES_Y_MASK,
+		SNES_SELECT_MASK,
+		SNES_START_MASK,
+		SNES_UP_MASK,
+		SNES_DOWN_MASK,
+		SNES_LEFT_MASK,
+		SNES_RIGHT_MASK,
+		SNES_A_MASK,
+		SNES_X_MASK,
+		SNES_TL_MASK,
+		SNES_TR_MASK
 	};
 
 	int32_t i;
@@ -55,20 +55,20 @@ uint32_t S9xReadJoypad(int32_t port)
 	
 	SDL_PollEvent(&event);
 
-	CASE(SDLK_RETURN, SNES_START_MASK);
-	CASE(SDLK_ESCAPE, SNES_SELECT_MASK);
-	CASE(SDLK_LCTRL, SNES_A_MASK);
-	CASE(SDLK_LALT, SNES_B_MASK);
-	CASE(SDLK_LSHIFT, SNES_X_MASK);
-	CASE(SDLK_SPACE, SNES_Y_MASK);
-	CASE(SDLK_TAB, SNES_TL_MASK);
-	CASE(SDLK_BACKSPACE, SNES_TR_MASK);
-	CASE(SDLK_UP, SNES_UP_MASK);
-	CASE(SDLK_LEFT, SNES_LEFT_MASK);
-	CASE(SDLK_RIGHT, SNES_RIGHT_MASK);
-	CASE(SDLK_DOWN, SNES_DOWN_MASK);
+	CASE(option.config_buttons[0][10], SNES_START_MASK);
+	CASE(option.config_buttons[0][11], SNES_SELECT_MASK);
+	CASE(option.config_buttons[0][4], SNES_A_MASK);
+	CASE(option.config_buttons[0][5], SNES_B_MASK);
+	CASE(option.config_buttons[0][6], SNES_X_MASK);
+	CASE(option.config_buttons[0][7], SNES_Y_MASK);
+	CASE(option.config_buttons[0][8], SNES_TL_MASK);
+	CASE(option.config_buttons[0][9], SNES_TR_MASK);
+	CASE(option.config_buttons[0][0], SNES_UP_MASK);
+	CASE(option.config_buttons[0][1], SNES_DOWN_MASK);
+	CASE(option.config_buttons[0][2], SNES_LEFT_MASK);
+	CASE(option.config_buttons[0][3], SNES_RIGHT_MASK);
 	
 	if (keystate[SDLK_END])	emulator_state = 1;
 
-   return joypad;
+	return joypad;
 }
