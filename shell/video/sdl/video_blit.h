@@ -3,13 +3,10 @@
 
 #include <SDL/SDL.h>
 
-#define HOST_WIDTH_RESOLUTION 320
-#define HOST_HEIGHT_RESOLUTION 240
+#define HOST_WIDTH_RESOLUTION sdl_screen->w
+#define HOST_HEIGHT_RESOLUTION sdl_screen->h
 
-#define INTERNAL_SNES_WIDTH_NTSC 256
-#define INTERNAL_SNES_HEIGHT_NTSC 224
-
-extern SDL_Surface *screen, *backbuffer;
+extern SDL_Surface *sdl_screen, *backbuffer;
 
 extern uint32_t width_of_surface;
 extern uint32_t* Draw_to_Virtual_Screen;

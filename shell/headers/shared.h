@@ -1,10 +1,6 @@
 #ifndef SHARED_H
 #define SHARED_H
 
-#define SOUND_OUTPUT_FREQUENCY 32000
-#define SOUND_SAMPLES_SIZE 1024
-
-/*
 #if defined(BITTBOY)
 #define SOUND_OUTPUT_FREQUENCY 22050
 #define SOUND_SAMPLES_SIZE 1024
@@ -27,5 +23,5 @@
 #define SOUND_OUTPUT_FREQUENCY 48000
 #define SOUND_SAMPLES_SIZE 2048
 #endif
-*/
+
 #endif

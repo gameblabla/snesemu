@@ -132,35 +132,35 @@ static const char* Return_Text_Button(uint32_t button)
 		break;
 		/* A button */
 		case 306:
-			return "A button";
+			return "A";
 		break;
 		/* B button */
 		case 308:
-			return "B button";
+			return "B";
 		break;
 		/* X button */
 		case 304:
-			return "X button";
+			return "X";
 		break;
 		/* Y button */
 		case 32:
-			return "Y button";
+			return "Y";
 		break;
 		/* L button */
 		case 9:
-			return "L button";
+			return "L";
 		break;
 		/* R button */
 		case 8:
-			return "R button";
+			return "R";
 		break;
 		/* Power button */
 		case 279:
-			return "L2 button";
+			return "L2";
 		break;
 		/* Brightness */
 		case 51:
-			return "R2 button";
+			return "R2";
 		break;
 		/* Volume - */
 		case 38:
@@ -172,14 +172,14 @@ static const char* Return_Text_Button(uint32_t button)
 		break;
 		/* Start */
 		case 13:
-			return "Start button";
+			return "Start";
 		break;
 		/* Select */
-		case 1:
-			return "Select button";
+		case 27:
+			return "Select";
 		break;
 		default:
-			return "Unknown key";
+			return "Unknown";
 		break;
 		case 0:
 			return "...";
@@ -288,51 +288,51 @@ static void Input_Remapping()
 		print_string("Press [A] to map to a button", TextWhite, TextBlue, 50, 210, backbuffer->pixels);
 		print_string("Press [B] to Exit", TextWhite, TextBlue, 85, 225, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "UP   : %d\n", (option.config_buttons[controls_chosen][0]));
+		snprintf(text, sizeof(text), "UP   : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][0]));
 		if (currentselection == 1) print_string(text, TextRed, 0, 5, 25+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 25+2, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "DOWN   : %d\n", (option.config_buttons[controls_chosen][1]));
+		snprintf(text, sizeof(text), "DOWN : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][1]));
 		if (currentselection == 2) print_string(text, TextRed, 0, 5, 45+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 45+2, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "LEFT   : %d\n", (option.config_buttons[controls_chosen][2]));
+		snprintf(text, sizeof(text), "LEFT : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][2]));
 		if (currentselection == 3) print_string(text, TextRed, 0, 5, 65+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 65+2, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "RIGHT   : %d\n", (option.config_buttons[controls_chosen][3]));
+		snprintf(text, sizeof(text), "RIGHT: %s\n", Return_Text_Button(option.config_buttons[controls_chosen][3]));
 		if (currentselection == 4) print_string(text, TextRed, 0, 5, 85+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 85+2, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "A   : %d\n", (option.config_buttons[controls_chosen][4]));
+		snprintf(text, sizeof(text), "A    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][4]));
 		if (currentselection == 5) print_string(text, TextRed, 0, 5, 105+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 105+2, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "B   : %d\n", (option.config_buttons[controls_chosen][5]));
+		snprintf(text, sizeof(text), "B    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][5]));
 		if (currentselection == 6) print_string(text, TextRed, 0, 5, 125+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 125+2, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "X   : %d\n", (option.config_buttons[controls_chosen][6]));
+		snprintf(text, sizeof(text), "X    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][6]));
 		if (currentselection == 7) print_string(text, TextRed, 0, 5, 145+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 145+2, backbuffer->pixels);
 		
-		snprintf(text, sizeof(text), "Y   : %d\n", (option.config_buttons[controls_chosen][7]));
+		snprintf(text, sizeof(text), "Y    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][7]));
 		if (currentselection == 8) print_string(text, TextRed, 0, 5, 165+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 165+2, backbuffer->pixels);
 			
-		snprintf(text, sizeof(text), "L   : %d\n", (option.config_buttons[controls_chosen][8]));
+		snprintf(text, sizeof(text), "L    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][8]));
 		if (currentselection == 9) print_string(text, TextRed, 0, 5, 185+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 185+2, backbuffer->pixels);
 			
-		snprintf(text, sizeof(text), "R      : %d\n", (option.config_buttons[controls_chosen][9]));
+		snprintf(text, sizeof(text), "R      : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][9]));
 		if (currentselection == 10) print_string(text, TextRed, 0, 165, 25+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 165, 25+2, backbuffer->pixels);
 			
-		snprintf(text, sizeof(text), "START  : %d\n", (option.config_buttons[controls_chosen][10]));
+		snprintf(text, sizeof(text), "START  : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][10]));
 		if (currentselection == 11) print_string(text, TextRed, 0, 165, 45+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 165, 45+2, backbuffer->pixels);
 			
-		snprintf(text, sizeof(text), "SELECT : %d\n", (option.config_buttons[controls_chosen][11]));
+		snprintf(text, sizeof(text), "SELECT : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][11]));
 		if (currentselection == 12) print_string(text, TextRed, 0, 165, 65+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 165, 65+2, backbuffer->pixels);
 		
