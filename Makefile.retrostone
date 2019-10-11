@@ -1,9 +1,9 @@
-PRGNAME     = PocketSNES
+PRGNAME     = snes9x
 
-VIDEO_BACKEND = sdl
+VIDEO_BACKEND = retrostone
 INPUT_BACKEND = sdl
 SOUND_BACKEND = alsa
-PROFILE		  = 0
+PROFILE		  = APPLY
 
 # define regarding OS, which compiler to use
 CC			= /opt/retrostone-toolchain/bin/arm-buildroot-linux-musleabihf-gcc

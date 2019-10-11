@@ -54,9 +54,9 @@ void Init_Video()
 	
 	SDL_ShowCursor(0);
 	
-	sdl_screen = SDL_SetVideoMode(680, 448, 16, SDL_HWSURFACE);
+	sdl_screen = SDL_SetVideoMode(0, 0, 16, SDL_HWSURFACE);
 	
-	backbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, HOST_WIDTH_RESOLUTION, HOST_HEIGHT_RESOLUTION, 16, 0,0,0,0);
+	backbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, 320, 240, 16, 0,0,0,0);
 
 	Set_Video_InGame();
 }

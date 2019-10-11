@@ -1,0 +1,31 @@
+#!/bin/sh
+
+mkdir -p opk
+cp ./snes9x opk/snes9x
+cp ./snes9x.png opk/snes9x.png
+
+# https://unix.stackexchange.com/questions/219268/how-to-add-new-lines-when-using-echo
+print()
+	case    ${IFS- } in
+	(\ *)   printf  %b\\n "$*";;
+	(*)     IFS=\ $IFS
+	printf  %b\\n "$*"
+	IFS=${IFS#?}
+esac
+
+# Create GmenuNx entry file plus other things
+
+print '[Desktop Entry]
+Type=Application
+Name=Snes9x2005
+Comment=Super NES emulator
+Exec=snes9x %f
+Icon=snes9x
+Terminal=false
+Type=Application
+Categories=emulators;
+X-OD-NeedsDownscaling=false' > opk/default."$1".desktop
+
+mksquashfs ./opk snes9x_"$1".opk -all-root -noappend -no-exports -no-xattrs
+
+rm -r opk

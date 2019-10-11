@@ -64,9 +64,9 @@ uint32_t S9xReadJoypad(int32_t port)
 	CASE(option.config_buttons[0][8], SNES_TL_MASK);
 	CASE(option.config_buttons[0][9], SNES_TR_MASK);
 	CASE(option.config_buttons[0][0], SNES_UP_MASK);
-	CASE(option.config_buttons[0][1], SNES_DOWN_MASK);
-	CASE(option.config_buttons[0][2], SNES_LEFT_MASK);
-	CASE(option.config_buttons[0][3], SNES_RIGHT_MASK);
+	CASE(option.config_buttons[0][1], SNES_RIGHT_MASK);
+	CASE(option.config_buttons[0][2], SNES_DOWN_MASK);
+	CASE(option.config_buttons[0][3], SNES_LEFT_MASK);
 	
 	if (keystate[SDLK_END])	emulator_state = 1;
 

@@ -3,13 +3,13 @@
 
 #include <SDL/SDL.h>
 
-#define HOST_WIDTH_RESOLUTION (sdl_screen->w)
-#define HOST_HEIGHT_RESOLUTION (sdl_screen->h)
+#define HOST_WIDTH_RESOLUTION sdl_screen->w
+#define HOST_HEIGHT_RESOLUTION sdl_screen->h
 
-#define INTERNAL_WSWAN_WIDTH 224
-#define INTERNAL_WSWAN_HEIGHT 144
+#define BACKBUFFER_WIDTH_RESOLUTION backbuffer->w
+#define BACKBUFFER_HEIGHT_RESOLUTION backbuffer->h
 
-extern SDL_Surface *screen, *wswan_vs, *backbuffer;
+extern SDL_Surface *sdl_screen, *backbuffer;
 
 extern uint32_t width_of_surface;
 extern uint32_t* Draw_to_Virtual_Screen;

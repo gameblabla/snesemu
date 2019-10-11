@@ -11,9 +11,9 @@ extern int32_t screen_width;
 
 static inline void setPixel(uint16_t* restrict buffer, uint32_t x, uint32_t y, uint16_t c)
 {
-	if (x < HOST_WIDTH_RESOLUTION && y < HOST_HEIGHT_RESOLUTION)
+	if (x < BACKBUFFER_WIDTH_RESOLUTION && y < BACKBUFFER_HEIGHT_RESOLUTION)
 	{
-		*((uint16_t* restrict)buffer + ((x) + (y) * HOST_WIDTH_RESOLUTION)) = c;
+		*((uint16_t* restrict)buffer + ((x) + (y) * BACKBUFFER_WIDTH_RESOLUTION)) = c;
 	}
 }
 
@@ -91,7 +91,7 @@ static void drawChar(uint16_t* restrict buffer, uint32_t *x, uint32_t *y, uint32
 		*x = margin;
 		*y += 8;
 	}
-	else if(*y < (HOST_HEIGHT_RESOLUTION-1))
+	else if(*y < (BACKBUFFER_HEIGHT_RESOLUTION-1))
 	{
 		charSprite = ch * 8 + n2DLib_font;
 		// Draw charSprite as monochrome 8*8 image using given color
@@ -118,7 +118,7 @@ static void drawString(uint16_t* restrict buffer, uint32_t *x, uint32_t *y, uint
 	uint32_t i;
 	size_t size_font;
 
-	size_font = strnlen(str, (HOST_WIDTH_RESOLUTION/8)) + 1;
+	size_font = strnlen(str, (BACKBUFFER_WIDTH_RESOLUTION/8)) + 1;
 	for(i = 0; i <  size_font; i++)
 		drawChar(buffer, x, y, _x, str[i], fc, olc);
 }
