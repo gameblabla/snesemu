@@ -255,12 +255,40 @@ void SaveState(char* path, uint_fast8_t state)
 	if (buffer) free(buffer);
 }
 
+
+#ifdef FRAMESKIP
+static uint32_t Timer_Read(void) 
+{
+	/* Timing. */
+	struct timeval tval;
+  	gettimeofday(&tval, 0);
+	return (((tval.tv_sec*1000000) + (tval.tv_usec)));
+}
+static long lastTick = 0, newTick;
+static uint32_t SkipCnt = 0, video_frames = 0, FPS = 60, FrameSkip;
+static const uint32_t TblSkip[4][4] = {
+    {0, 0, 0, 0},
+    {0, 0, 0, 1},
+	{0, 0, 1, 1},
+	{0, 1, 1, 1}
+};
+#endif
+
 void Emulation_Run (void)
 {
 #ifndef USE_BLARGG_APU
 	static int16_t audio_buf[2048];
 #endif
+
+#ifdef FRAMESKIP
+	SkipCnt++;
+	if (SkipCnt > 3) SkipCnt = 0;
+	if (TblSkip[FrameSkip][SkipCnt]) IPPU.RenderThisFrame = false;
+	else IPPU.RenderThisFrame = true;
+#else
 	IPPU.RenderThisFrame = true;
+#endif
+	
 #ifdef USE_BLARGG_APU
 	S9xSetSoundMute(false);
 #endif
@@ -293,6 +321,26 @@ void Emulation_Run (void)
 	else
 	{
 		IPPU.RenderThisFrame = true;
+	}
+#endif
+
+#ifdef FRAMESKIP
+	video_frames++;
+	newTick = Timer_Read();
+	if ( (newTick) - (lastTick) > 1000000) 
+	{
+		FPS = video_frames;
+		video_frames = 0;
+		lastTick = newTick;
+		if (FPS >= 60)
+		{
+			FrameSkip = 0;
+		}
+		else
+		{
+			FrameSkip = 60 / FPS;
+			if (FrameSkip > 3) FrameSkip = 3;
+		}
 	}
 #endif
 }
