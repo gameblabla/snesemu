@@ -33,8 +33,6 @@ typedef struct
    uint32_t    Pitch;
 
    int32_t     Delta;
-   uint16_t*   X2;
-   uint16_t*   ZERO_OR_X2;
    uint16_t*   ZERO;
    uint32_t    RealPitch;  /* True pitch of Screen buffer. */
    uint32_t    Pitch2;     /* Same as RealPitch except while using speed up hack for Glide. */
@@ -148,28 +146,50 @@ extern uint8_t mul_brightness [16][32];
 
 static INLINE uint16_t COLOR_ADD(uint16_t C1, uint16_t C2)
 {
-   if (C1 == 0)
-      return C2;
-   else if (C2 == 0)
-      return C1;
-   else
-      return GFX.X2[(((C1 & RGB_REMOVE_LOW_BITS_MASK) + (C2 & RGB_REMOVE_LOW_BITS_MASK)) >> 1) + (C1 & C2 & RGB_LOW_BITS_MASK)] | ((C1 ^ C2) & RGB_LOW_BITS_MASK);
+	const int RED_MASK = 0x1F << RED_SHIFT_BITS;
+	const int GREEN_MASK = 0x1F << GREEN_SHIFT_BITS;
+	const int BLUE_MASK = 0x1F;
+
+	int rb = C1 & (RED_MASK | BLUE_MASK);
+	rb += C2 & (RED_MASK | BLUE_MASK);
+	int rbcarry = rb & ((0x20 << RED_SHIFT_BITS) | (0x20 << 0));
+	int g = (C1 & (GREEN_MASK)) + (C2 & (GREEN_MASK));
+	int rgbsaturate = (((g & (0x20 << GREEN_SHIFT_BITS)) | rbcarry) >> 5) * 0x1f;
+	uint16_t retval = (rb & (RED_MASK | BLUE_MASK)) | (g & GREEN_MASK) | rgbsaturate;
+#if GREEN_SHIFT_BITS == 6
+	retval |= (retval & 0x0400) >> 5;
+#endif
+
+	return retval;
 }
 
-#define COLOR_ADD1_2(C1, C2) \
-(((((C1) & RGB_REMOVE_LOW_BITS_MASK) + \
-          ((C2) & RGB_REMOVE_LOW_BITS_MASK)) >> 1) + \
-         (((C1) & (C2) & RGB_LOW_BITS_MASK) | ALPHA_BITS_MASK))
+static INLINE uint16_t COLOR_ADD1_2(uint16_t C1, uint16_t C2)
+{
+	return ((((((C1)&RGB_REMOVE_LOW_BITS_MASK) + ((C2)&RGB_REMOVE_LOW_BITS_MASK)) >> 1) +
+		 ((C1) & (C2)&RGB_LOW_BITS_MASK)) |
+		ALPHA_BITS_MASK);
+}
 
-#define COLOR_SUB(C1, C2) \
-(GFX.ZERO_OR_X2 [(((C1) | RGB_HI_BITS_MASKx2) - \
-                  ((C2) & RGB_REMOVE_LOW_BITS_MASK)) >> 1] + \
-                  ((C1) & RGB_LOW_BITS_MASK) - \
-                  ((C2) & RGB_LOW_BITS_MASK))
+static INLINE uint16_t COLOR_SUB(uint16_t C1, uint16_t C2)
+{
+	int rb1 = (C1 & (THIRD_COLOR_MASK | FIRST_COLOR_MASK)) | ((0x20 << 0) | (0x20 << RED_SHIFT_BITS));
+	int rb2 = C2 & (THIRD_COLOR_MASK | FIRST_COLOR_MASK);
+	int rb = rb1 - rb2;
+	int rbcarry = rb & ((0x20 << RED_SHIFT_BITS) | (0x20 << 0));
+	int g = ((C1 & (SECOND_COLOR_MASK)) | (0x20 << GREEN_SHIFT_BITS)) - (C2 & (SECOND_COLOR_MASK));
+	int rgbsaturate = (((g & (0x20 << GREEN_SHIFT_BITS)) | rbcarry) >> 5) * 0x1f;
+	uint16_t retval = ((rb & (THIRD_COLOR_MASK | FIRST_COLOR_MASK)) | (g & SECOND_COLOR_MASK)) & rgbsaturate;
+#if GREEN_SHIFT_BITS == 6
+	retval |= (retval & 0x0400) >> 5;
+#endif
 
-#define COLOR_SUB1_2(C1, C2) \
-GFX.ZERO [(((C1) | RGB_HI_BITS_MASKx2) - \
-           ((C2) & RGB_REMOVE_LOW_BITS_MASK)) >> 1]
+	return retval;
+}
+
+static INLINE uint16_t COLOR_SUB1_2(uint16_t C1, uint16_t C2)
+{
+	return GFX.ZERO[(((C1) | RGB_HI_BITS_MASKx2) - ((C2)&RGB_REMOVE_LOW_BITS_MASK)) >> 1];
+}
 
 typedef void (*NormalTileRenderer)(uint32_t Tile, int32_t Offset, uint32_t StartLine, uint32_t LineCount);
 typedef void (*ClippedTileRenderer)(uint32_t Tile, int32_t Offset, uint32_t StartPixel, uint32_t Width, uint32_t StartLine, uint32_t LineCount);
