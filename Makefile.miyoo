@@ -2,7 +2,7 @@ GIT_VERSION := "$(shell git describe --abbrev=7 --dirty --always)"
 
 PRGNAME = snes9x
 
-VIDEO_BACKEND = retrostone
+VIDEO_BACKEND = sdl
 INPUT_BACKEND = sdl
 SOUND_BACKEND = alsa
 
