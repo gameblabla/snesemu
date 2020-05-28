@@ -32,7 +32,7 @@ CFLAGS	+= -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implic
 ifeq ($(PROFILE), YES)
 CFLAGS	+= -fprofile-generate=./profile
 else ifeq ($(PROFILE), APPLY)
-CFLAGS	+= -fprofile-use -fbranch-probabilities
+CFLAGS	+= -fprofile-use -fprofile-dir=./profile -fbranch-probabilities
 endif
 
 LDFLAGS = -lc -lgcc -lm $(SDL_LIBS) -no-pie -Wl,--as-needed -Wl,--gc-sections -s -flto
