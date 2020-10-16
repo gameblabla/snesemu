@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -51,11 +51,11 @@ uint32_t* Draw_to_Virtual_Screen;
 void Init_Video()
 {
 	SDL_Init( SDL_INIT_VIDEO );
-	
+
 	SDL_ShowCursor(0);
-	
-	sdl_screen = SDL_SetVideoMode(HOST_WIDTH_RESOLUTION, HOST_HEIGHT_RESOLUTION, 16, SDL_HWSURFACE);
-	
+
+	sdl_screen = SDL_SetVideoMode(0, 0, 16, SDL_HWSURFACE);
+
 	backbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, 320, 240, 16, 0,0,0,0);
 
 	Set_Video_InGame();
@@ -63,30 +63,10 @@ void Init_Video()
 
 void Set_Video_Menu()
 {
-	/*if (sdl_screen->w != HOST_WIDTH_RESOLUTION)
-	{
-		sdl_screen = SDL_SetVideoMode(HOST_WIDTH_RESOLUTION, HOST_HEIGHT_RESOLUTION, 16, SDL_HWSURFACE);
-	}*/
 }
 
 void Set_Video_InGame()
 {
-	/*switch(option.fullscreen) 
-	{
-		// Native
-		#ifdef SUPPORT_NATIVE_RESOLUTION
-        case 0:
-			if (sdl_screen->w != INTERNAL_WSWAN_WIDTH) sdl_screen = SDL_SetVideoMode(IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight, 16, SDL_HWSURFACE);
-			Draw_to_Virtual_Screen = sdl_screen->pixels;
-			width_of_surface = sdl_screen->w;
-        break;
-        #endif
-        default:
-			if (sdl_screen->w != HOST_WIDTH_RESOLUTION) sdl_screen = SDL_SetVideoMode(HOST_WIDTH_RESOLUTION, HOST_HEIGHT_RESOLUTION, 16, SDL_HWSURFACE);
-			Draw_to_Virtual_Screen = wswan_vs->pixels;
-			width_of_surface = INTERNAL_WSWAN_WIDTH;
-        break;
-    }*/
 }
 
 void Video_Close()
@@ -106,9 +86,9 @@ void Update_Video_Ingame()
 	uint32_t *s, *d;
 	uint32_t h, w;
 	uint8_t PAL = !!(Memory.FillRAM[0x2133] & 4);
-	
+
 	SDL_LockSurface(sdl_screen);
-	
+
 	switch(option.fullscreen)
 	{
 		case 0:
@@ -126,7 +106,7 @@ void Update_Video_Ingame()
 		break;
 	}
 	//bitmap_scale(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight, sdl_screen->w, sdl_screen->h, SNES_WIDTH*2, 0, GFX.Screen, sdl_screen->pixels);
-	
-	SDL_UnlockSurface(sdl_screen);	
+
+	SDL_UnlockSurface(sdl_screen);
 	SDL_Flip(sdl_screen);
 }

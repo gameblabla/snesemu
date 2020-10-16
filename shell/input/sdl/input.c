@@ -50,9 +50,9 @@ uint32_t S9xReadJoypad(int32_t port)
 
 	int32_t i;
 	uint32_t joypad = 0;
-	
+
 	keystate = SDL_GetKeyState(NULL);
-	
+
 	SDL_PollEvent(&event);
 
 	CASE(option.config_buttons[0][10], SNES_START_MASK);
@@ -67,8 +67,8 @@ uint32_t S9xReadJoypad(int32_t port)
 	CASE(option.config_buttons[0][1], SNES_RIGHT_MASK);
 	CASE(option.config_buttons[0][2], SNES_DOWN_MASK);
 	CASE(option.config_buttons[0][3], SNES_LEFT_MASK);
-	
-	if (keystate[SDLK_END])	emulator_state = 1;
+
+	if (keystate[option.config_buttons[0][12]]) emulator_state = 1;
 
 	return joypad;
 }

@@ -76,22 +76,24 @@ static void config_load()
 	else
 	{
 		/* Default mapping for Horizontal */
-		option.config_buttons[0][0] = 273;
-		option.config_buttons[0][1] = 275;
-		option.config_buttons[0][2] = 274;
-		option.config_buttons[0][3] = 276;
-		
-		option.config_buttons[0][4] = 306;
-		option.config_buttons[0][5] = 308;
-		option.config_buttons[0][6] = 304;
-		option.config_buttons[0][7] = 32;
-		
-		option.config_buttons[0][8] = 9;
-		option.config_buttons[0][9] = 8;
-				
-		option.config_buttons[0][10] = 13;
-		option.config_buttons[0][11] = 27;
-		
+		option.config_buttons[0][0] = 273; // UP
+		option.config_buttons[0][1] = 275; // RIGHT
+		option.config_buttons[0][2] = 274; // DOWN
+		option.config_buttons[0][3] = 276; // LEFT
+
+		option.config_buttons[0][4] = 308; // A
+		option.config_buttons[0][5] = 306; // B
+		option.config_buttons[0][6] = 304; // X
+		option.config_buttons[0][7] = 32; // Y
+
+		option.config_buttons[0][8] = 9; // L
+		option.config_buttons[0][9] = 8; // R
+
+		option.config_buttons[0][10] = 13; // START
+		option.config_buttons[0][11] = 27; // SELECT
+
+		option.config_buttons[0][12] = 305; // MENU
+
 		option.fullscreen = 1;
 	}
 }
@@ -101,7 +103,7 @@ static void config_save()
 	FILE* fp;
 	char config_path[512];
 	snprintf(config_path, sizeof(config_path), "%s/%s.cfg", conf_path, GameName_emu);
-	
+
 	fp = fopen(config_path, "wb");
 	if (fp)
 	{
@@ -184,7 +186,7 @@ static const char* Return_Text_Button(uint32_t button)
 		case 0:
 			return "...";
 		break;
-	}	
+	}
 }
 
 static void Input_Remapping()
@@ -195,12 +197,12 @@ static void Input_Remapping()
 	int32_t currentselection = 1;
 	int32_t exit_input = 0;
 	uint32_t exit_map = 0;
-	
+
 	while(!exit_input)
 	{
 		pressed = 0;
 		SDL_FillRect( backbuffer, NULL, 0 );
-		
+
         while (SDL_PollEvent(&Event))
         {
             if (Event.type == SDL_KEYDOWN)
@@ -262,7 +264,7 @@ static void Input_Remapping()
 						SDL_FillRect( backbuffer, NULL, 0 );
 						print_string("Please press button for mapping", TextWhite, TextBlue, 37, 108, backbuffer->pixels);
 						bitmap_scale(0,0,320,240,sdl_screen->w,sdl_screen->h,320,0,(uint16_t* restrict)backbuffer->pixels,(uint16_t* restrict)sdl_screen->pixels);
-						
+
 						while (SDL_PollEvent(&Event))
 						{
 							if (Event.type == SDL_KEYDOWN)
@@ -279,67 +281,67 @@ static void Input_Remapping()
 				break;
             }
         }
-        
+
         if (currentselection > 12) currentselection = 12;
 
 		if (controls_chosen == 0) print_string("Player 1", TextWhite, 0, 100, 10, backbuffer->pixels);
 		else print_string("Player 2", TextWhite, 0, 100, 10, backbuffer->pixels);
-		
+
 		print_string("Press [A] to map to a button", TextWhite, TextBlue, 50, 210, backbuffer->pixels);
 		print_string("Press [B] to Exit", TextWhite, TextBlue, 85, 225, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "UP   : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][0]));
 		if (currentselection == 1) print_string(text, TextRed, 0, 5, 25+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 25+2, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "DOWN : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][1]));
 		if (currentselection == 2) print_string(text, TextRed, 0, 5, 45+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 45+2, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "LEFT : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][2]));
 		if (currentselection == 3) print_string(text, TextRed, 0, 5, 65+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 65+2, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "RIGHT: %s\n", Return_Text_Button(option.config_buttons[controls_chosen][3]));
 		if (currentselection == 4) print_string(text, TextRed, 0, 5, 85+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 85+2, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "A    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][4]));
 		if (currentselection == 5) print_string(text, TextRed, 0, 5, 105+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 105+2, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "B    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][5]));
 		if (currentselection == 6) print_string(text, TextRed, 0, 5, 125+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 125+2, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "X    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][6]));
 		if (currentselection == 7) print_string(text, TextRed, 0, 5, 145+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 145+2, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "Y    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][7]));
 		if (currentselection == 8) print_string(text, TextRed, 0, 5, 165+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 165+2, backbuffer->pixels);
-			
+
 		snprintf(text, sizeof(text), "L    : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][8]));
 		if (currentselection == 9) print_string(text, TextRed, 0, 5, 185+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 185+2, backbuffer->pixels);
-			
+
 		snprintf(text, sizeof(text), "R      : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][9]));
 		if (currentselection == 10) print_string(text, TextRed, 0, 165, 25+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 165, 25+2, backbuffer->pixels);
-			
+
 		snprintf(text, sizeof(text), "START  : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][10]));
 		if (currentselection == 11) print_string(text, TextRed, 0, 165, 45+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 165, 45+2, backbuffer->pixels);
-			
+
 		snprintf(text, sizeof(text), "SELECT : %s\n", Return_Text_Button(option.config_buttons[controls_chosen][11]));
 		if (currentselection == 12) print_string(text, TextRed, 0, 165, 65+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 165, 65+2, backbuffer->pixels);
-		
+
 		bitmap_scale(0,0,320,240,sdl_screen->w,sdl_screen->h,320,0,(uint16_t* restrict)backbuffer->pixels,(uint16_t* restrict)sdl_screen->pixels);
 		SDL_Flip(sdl_screen);
 	}
-	
+
 	config_save();
 }
 
@@ -350,34 +352,34 @@ void Menu()
     int16_t currentselection = 1;
     SDL_Rect dstRect;
     SDL_Event Event;
-    
+
     Set_Video_Menu();
-    
+
 	/* Save sram settings each time we bring up the menu */
 	SRAM_Menu(0);
 	RTC_Menu(0);
-    
+
     while (((currentselection != 1) && (currentselection != 6)) || (!pressed))
     {
         pressed = 0;
-        
+
         SDL_FillRect( backbuffer, NULL, 0 );
 
 		print_string("SNESEmu - Built on " __DATE__, TextWhite, 0, 5, 15, backbuffer->pixels);
-		
+
 		if (currentselection == 1) print_string("Continue", TextRed, 0, 5, 45, backbuffer->pixels);
 		else  print_string("Continue", TextWhite, 0, 5, 45, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "Load State %d", save_slot);
-		
+
 		if (currentselection == 2) print_string(text, TextRed, 0, 5, 65, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 65, backbuffer->pixels);
-		
+
 		snprintf(text, sizeof(text), "Save State %d", save_slot);
-		
+
 		if (currentselection == 3) print_string(text, TextRed, 0, 5, 85, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 5, 85, backbuffer->pixels);
-		
+
         if (currentselection == 4)
         {
 			switch(option.fullscreen)
@@ -417,7 +419,7 @@ void Menu()
 
 		if (currentselection == 5) print_string("Input remapping", TextRed, 0, 5, 125, backbuffer->pixels);
 		else print_string("Input remapping", TextWhite, 0, 5, 125, backbuffer->pixels);
-		
+
 		if (currentselection == 6) print_string("Quit", TextRed, 0, 5, 145, backbuffer->pixels);
 		else print_string("Quit", TextWhite, 0, 5, 145, backbuffer->pixels);
 
@@ -519,19 +521,19 @@ void Menu()
 		bitmap_scale(0,0,320,240,sdl_screen->w,sdl_screen->h,320,0,(uint16_t* restrict)backbuffer->pixels,(uint16_t* restrict)sdl_screen->pixels);
 		SDL_Flip(sdl_screen);
     }
-    
+
     SDL_FillRect(sdl_screen, NULL, 0);
     SDL_Flip(sdl_screen);
     #ifdef SDL_TRIPLEBUF
     SDL_FillRect(sdl_screen, NULL, 0);
     SDL_Flip(sdl_screen);
     #endif
-    
+
     if (currentselection == 6)
     {
         exit_snes = 1;
 	}
-	
+
 	/* Switch back to emulator core */
 	emulator_state = 0;
 	Set_Video_InGame();
@@ -547,51 +549,51 @@ static void Cleanup(void)
 
 	// Deinitialize audio and video output
 	Audio_Close();
-	
+
 	SDL_Quit();
 }
 
 void Init_Configuration()
 {
 	snprintf(home_path, sizeof(home_path), "%s/.snesemu", getenv("HOME"));
-	
+
 	snprintf(conf_path, sizeof(conf_path), "%s/conf", home_path);
 	snprintf(save_path, sizeof(save_path), "%s/sstates", home_path);
 	snprintf(sram_path, sizeof(sram_path), "%s/sram", home_path);
 	snprintf(rtc_path, sizeof(sram_path), "%s/rtc", home_path);
-	
-	/* We check first if folder does not exist. 
+
+	/* We check first if folder does not exist.
 	 * Let's only try to create it if so in order to decrease boot times.
 	 * */
-	
+
 	if (access( home_path, F_OK ) == -1)
-	{ 
+	{
 		mkdir(home_path, 0755);
 	}
-	
+
 	if (access( save_path, F_OK ) == -1)
 	{
 		mkdir(save_path, 0755);
 	}
-	
+
 	if (access( conf_path, F_OK ) == -1)
 	{
 		mkdir(conf_path, 0755);
 	}
-	
+
 	if (access( sram_path, F_OK ) == -1)
 	{
 		mkdir(sram_path, 0755);
 	}
-	
+
 	if (access( rtc_path, F_OK ) == -1)
 	{
 		mkdir(rtc_path, 0755);
 	}
-	
+
 	/* Load sram file if it exists */
 	SRAM_Menu(1);
 	RTC_Menu(1);
-	
+
 	config_load();
 }
