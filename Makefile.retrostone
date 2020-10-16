@@ -9,7 +9,7 @@ PROFILE		  = APPLY
 CC			= /opt/retrostone-toolchain/bin/arm-buildroot-linux-musleabihf-gcc
 
 # change compilation / linking flag options
-CFLAGS		 = -DLSB_FIRST -I. -Ilibretro-common/include -Isrc -DINLINE="inline" -DRIGHTSHIFT_IS_SAR
+CFLAGS		 = -DLSB_FIRST -I. -Ilibretro-common/include -Isrc -DINLINE="inline" -DRIGHTSHIFT_IS_SAR -DFAST_ALIGNED_LSB_WORD_ACCESS
 CFLAGS		+= -Isource -I./shell/emu -I./shell/scalers -I./shell/emu -I./shell/audio -I./shell/menu -I./shell/video/sdl -I./shell/input -Ishell/headers
 
 CFLAGS		+= -Ofast -fsingle-precision-constant -fno-PIC -flto

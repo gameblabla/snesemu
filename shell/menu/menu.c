@@ -76,23 +76,21 @@ static void config_load()
 	else
 	{
 		/* Default mapping for Horizontal */
-		option.config_buttons[0][0] = 273; // UP
-		option.config_buttons[0][1] = 275; // RIGHT
-		option.config_buttons[0][2] = 274; // DOWN
-		option.config_buttons[0][3] = 276; // LEFT
+		option.config_buttons[0][0] = SDLK_UP; // UP
+		option.config_buttons[0][1] = SDLK_RIGHT; // RIGHT
+		option.config_buttons[0][2] = SDLK_DOWN; // DOWN
+		option.config_buttons[0][3] = SDLK_LEFT; // LEFT
 
-		option.config_buttons[0][4] = 308; // A
-		option.config_buttons[0][5] = 306; // B
-		option.config_buttons[0][6] = 304; // X
-		option.config_buttons[0][7] = 32; // Y
+		option.config_buttons[0][4] = SDLK_LCTRL; // A
+		option.config_buttons[0][5] = SDLK_LALT; // B
+		option.config_buttons[0][6] = SDLK_LSHIFT; // X
+		option.config_buttons[0][7] = SDLK_SPACE; // Y
 
-		option.config_buttons[0][8] = 9; // L
-		option.config_buttons[0][9] = 8; // R
+		option.config_buttons[0][8] = SDLK_TAB; // L
+		option.config_buttons[0][9] = SDLK_BACKSPACE; // R
 
-		option.config_buttons[0][10] = 13; // START
-		option.config_buttons[0][11] = 27; // SELECT
-
-		option.config_buttons[0][12] = 305; // MENU
+		option.config_buttons[0][10] = SDLK_RETURN; // START
+		option.config_buttons[0][11] = SDLK_ESCAPE; // SELECT
 
 		option.fullscreen = 1;
 	}
