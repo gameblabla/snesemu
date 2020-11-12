@@ -83,8 +83,8 @@ static void config_load()
 
 		option.config_buttons[0][4] = SDLK_LCTRL; // A
 		option.config_buttons[0][5] = SDLK_LALT; // B
-		option.config_buttons[0][6] = SDLK_LSHIFT; // X
-		option.config_buttons[0][7] = SDLK_SPACE; // Y
+		option.config_buttons[0][6] = SDLK_SPACE; // X
+		option.config_buttons[0][7] = SDLK_LSHIFT; // Y
 
 		option.config_buttons[0][8] = SDLK_TAB; // L
 		option.config_buttons[0][9] = SDLK_BACKSPACE; // R
