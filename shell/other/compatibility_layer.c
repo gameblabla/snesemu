@@ -1,5 +1,4 @@
 #include <SDL/SDL.h>
-#include <portaudio.h>
 #include "main.h"
 #include "snes9x.h"
 #include "soundux.h"

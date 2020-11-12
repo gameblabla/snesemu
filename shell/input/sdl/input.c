@@ -1,7 +1,6 @@
 #include <SDL/SDL.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <portaudio.h>
 #include "main.h"
 #include "snes9x.h"
 #include "soundux.h"
@@ -67,7 +66,7 @@ uint32_t S9xReadJoypad(int32_t port)
 					break;
 				}
 			break;
-			case SDLK_KEYUP:
+			case SDL_KEYUP:
 				switch(event.key.keysym.sym)
 				{
 					case SDLK_HOME:
