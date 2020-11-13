@@ -32,7 +32,7 @@ void S9xDeinitAPU()
    }
 }
 
-uint8_t APUROM [64];
+extern uint8_t APUROM [64];
 
 void S9xResetAPU()
 {

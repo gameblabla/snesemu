@@ -18,7 +18,7 @@
 
 #include <retro_inline.h>
 
-int32_t OpAddress;
+extern int32_t OpAddress;
 
 /* ADC */
 static void Op69M1(void)
