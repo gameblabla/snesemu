@@ -48,13 +48,19 @@ SDL_Surface *sdl_screen, *backbuffer;
 uint32_t width_of_surface;
 uint32_t* Draw_to_Virtual_Screen;
 
+#ifndef SDL_TRIPLEBUF
+#define SDL_TRIPLEBUF SDL_DOUBLEBUF
+#endif
+
+#define SDL_FLAGS SDL_HWSURFACE | SDL_TRIPLEBUF
+
 void Init_Video()
 {
 	SDL_Init( SDL_INIT_VIDEO );
 
 	SDL_ShowCursor(0);
 
-	sdl_screen = SDL_SetVideoMode(320, 240, 16, SDL_HWSURFACE);
+	sdl_screen = SDL_SetVideoMode(640, 480, 16, SDL_FLAGS);
 
 	backbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, 320, 240, 16, 0,0,0,0);
 
@@ -63,10 +69,12 @@ void Init_Video()
 
 void Set_Video_Menu()
 {
+	sdl_screen = SDL_SetVideoMode(320, 240, 16, SDL_FLAGS);
 }
 
 void Set_Video_InGame()
 {
+	sdl_screen = SDL_SetVideoMode(IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight, 16, SDL_FLAGS);
 }
 
 void Video_Close()
@@ -78,35 +86,21 @@ void Video_Close()
 
 void Update_Video_Menu()
 {
-	SDL_SoftStretch(backbuffer, NULL, sdl_screen, NULL);
+	SDL_BlitSurface(backbuffer, NULL, sdl_screen, NULL);
 	SDL_Flip(sdl_screen);
 }
 
 void Update_Video_Ingame()
 {
-	uint16_t *s, *d;
+	uint32_t *s, *d;
 	uint32_t h, w;
 	uint8_t PAL = !!(Memory.FillRAM[0x2133] & 4);
 
-	SDL_LockSurface(sdl_screen);
-
-	switch(option.fullscreen)
+	if (SDL_LockSurface(sdl_screen) == 0)
 	{
-		case 0:
-		s = (uint16_t*) GFX.Screen;
-		d = (uint16_t*) sdl_screen->pixels + ((sdl_screen->w - IPPU.RenderedScreenWidth)/2 + (sdl_screen->h - IPPU.RenderedScreenHeight) * 160) - (PAL ? 0 : 2*320);
-		for(uint8_t y = 0; y < IPPU.RenderedScreenHeight; y++, s += IPPU.RenderedScreenWidth, d += sdl_screen->w) memmove(d, s, IPPU.RenderedScreenWidth * 2);
-		break;
-		case 1:
-			upscale_256xXXX_to_320x240((uint32_t*) sdl_screen->pixels, (uint32_t*) GFX.Screen, IPPU.RenderedScreenWidth, PAL ? 240 : 224);
-		break;
-		case 2:
-			if (IPPU.RenderedScreenHeight == 240) upscale_256x240_to_320x240_bilinearish((uint32_t*) sdl_screen->pixels, (uint32_t*) GFX.Screen, IPPU.RenderedScreenWidth, 239);
-			else upscale_256x240_to_320x240_bilinearish((uint32_t*) sdl_screen->pixels + (160*8), (uint32_t*) GFX.Screen, IPPU.RenderedScreenWidth, 224);
-		break;
+		if (IPPU.RenderedScreenWidth != sdl_screen->w || IPPU.RenderedScreenHeight != sdl_screen->h) Set_Video_InGame();
+		memcpy(sdl_screen->pixels, GFX.Screen, (IPPU.RenderedScreenWidth * IPPU.RenderedScreenHeight) * 2);
+		SDL_UnlockSurface(sdl_screen);
 	}
-	//bitmap_scale(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight, sdl_screen->w, sdl_screen->h, SNES_WIDTH*2, 0, GFX.Screen, sdl_screen->pixels);
-
-	SDL_UnlockSurface(sdl_screen);
 	SDL_Flip(sdl_screen);
 }

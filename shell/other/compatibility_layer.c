@@ -13,6 +13,8 @@
 #include "sa1.h"
 #include "scaler.h"
 
+static uint32_t width_snes = 256;
+
 const char* S9xGetFilename(const char* in)
 {
    static char filename [PATH_MAX + 1];
@@ -34,18 +36,12 @@ const char* S9xGetDirectory(uint32_t dirtype) { return NULL; }
 
 void S9xDeinitDisplay(void)
 {
-#ifdef DS2_DMA
-   if (GFX.Screen_buffer)
-      AlignedFree(GFX.Screen, PtrAdj.GFXScreen);
-#elif defined(_3DS)
-   if (GFX.Screen_buffer)
-      linearFree(GFX.Screen_buffer);
-#else
    if (GFX.Screen_buffer)
       free(GFX.Screen_buffer);
-#endif
+      
    if (GFX.SubScreen_buffer)
       free(GFX.SubScreen_buffer);
+      
    if (GFX.ZBuffer_buffer)
       free(GFX.ZBuffer_buffer);
    if (GFX.SubZBuffer_buffer)
@@ -64,25 +60,19 @@ void S9xDeinitDisplay(void)
 void S9xInitDisplay(void)
 {
    int32_t h = IMAGE_HEIGHT;
-   int32_t safety = 32;
+   
+   width_snes = IMAGE_WIDTH;
+   
+   GFX.Pitch = IMAGE_WIDTH;
+   GFX.Screen_buffer = (uint8_t *) malloc(GFX.Pitch * h);
+   GFX.SubScreen_buffer = (uint8_t *) malloc(GFX.Pitch * h);
+   GFX.ZBuffer_buffer = (uint8_t *) malloc((GFX.Pitch >> 1) * h );
+   GFX.SubZBuffer_buffer = (uint8_t *) malloc((GFX.Pitch >> 1) * h);
 
-   GFX.Pitch = IMAGE_WIDTH * 2;
-#ifdef DS2_DMA
-   GFX.Screen_buffer = (uint8_t *) AlignedMalloc(GFX.Pitch * h + safety, 32, &PtrAdj.GFXScreen);
-#elif defined(_3DS)
-   safety = 0x80;
-   GFX.Screen_buffer = (uint8_t *) linearMemAlign(GFX.Pitch * h + safety, 0x80);
-#else
-   GFX.Screen_buffer = (uint8_t *) malloc(GFX.Pitch * h + safety);
-#endif
-   GFX.SubScreen_buffer = (uint8_t *) malloc(GFX.Pitch * h + safety);
-   GFX.ZBuffer_buffer = (uint8_t *) malloc((GFX.Pitch >> 1) * h + safety);
-   GFX.SubZBuffer_buffer = (uint8_t *) malloc((GFX.Pitch >> 1) * h + safety);
-
-   GFX.Screen = GFX.Screen_buffer + safety;
-   GFX.SubScreen = GFX.SubScreen_buffer + safety;
-   GFX.ZBuffer = GFX.ZBuffer_buffer + safety;
-   GFX.SubZBuffer = GFX.SubZBuffer_buffer + safety;
+   GFX.Screen = GFX.Screen_buffer;
+   GFX.SubScreen = GFX.SubScreen_buffer;
+   GFX.ZBuffer = GFX.ZBuffer_buffer;
+   GFX.SubZBuffer = GFX.SubZBuffer_buffer;
 
    GFX.Delta = (GFX.SubScreen - GFX.Screen) >> 1;
 }

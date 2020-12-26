@@ -39,7 +39,7 @@ void upscale_256x240_to_320x240_bilinearish(uint32_t* restrict dst, uint32_t* re
 	uint16_t* BlockDst;
 	for (BlockY = 0; BlockY < height; BlockY++)
 	{
-		BlockSrc = Src16 + BlockY * 512 * 1;
+		BlockSrc = Src16 + BlockY * width * 1;
 		BlockDst = Dst16 + BlockY * 320 * 1;
 		for (BlockX = 0; BlockX < 64; BlockX++)
 		{
@@ -69,15 +69,15 @@ void upscale_256x240_to_320x240_bilinearish(uint32_t* restrict dst, uint32_t* re
 
 void upscale_256xXXX_to_320x240(uint32_t* restrict dst, uint32_t* restrict src, uint_fast16_t width, uint_fast16_t height)
 {
-    uint_fast16_t midh = 240;
-    uint_fast16_t Eh = 0;
-    uint_fast16_t source = 0;
-    uint_fast16_t dh = 0;
-    uint_fast8_t y, x;
+    uint32_t midh = 240 / 2;
+    uint32_t Eh = 0;
+    uint32_t source;
+    uint32_t dh = 0;
+    uint32_t y, x;
 
     for (y = 0; y < 240; y++)
     {
-        source = dh * width;
+        source = dh * 256 / 2;
 
         for (x = 0; x < 320/10; x++)
         {
@@ -91,12 +91,11 @@ void upscale_256xXXX_to_320x240(uint32_t* restrict dst, uint32_t* restrict src, 
             ef = src[source + 2] & 0xF7DEF7DE;
             gh = src[source + 3] & 0xF7DEF7DE;
 
-            if(Eh >= midh) 
-			{
-                ab = AVERAGE(ab, src[source + width/2]) & 0xF7DEF7DE; // to prevent overflow
-                cd = AVERAGE(cd, src[source + width/2 + 1]) & 0xF7DEF7DE; // to prevent overflow
-                ef = AVERAGE(ef, src[source + width/2 + 2]) & 0xF7DEF7DE; // to prevent overflow
-                gh = AVERAGE(gh, src[source + width/2 + 3]) & 0xF7DEF7DE; // to prevent overflow
+            if(Eh >= midh) {
+                ab = AVERAGE(ab, src[source + 256/2]) & 0xF7DEF7DE; // to prevent overflow
+                cd = AVERAGE(cd, src[source + 256/2 + 1]) & 0xF7DEF7DE; // to prevent overflow
+                ef = AVERAGE(ef, src[source + 256/2 + 2]) & 0xF7DEF7DE; // to prevent overflow
+                gh = AVERAGE(gh, src[source + 256/2 + 3]) & 0xF7DEF7DE; // to prevent overflow
             }
 
             *dst++ = ab;

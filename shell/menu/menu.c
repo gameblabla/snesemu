@@ -261,8 +261,6 @@ static void Input_Remapping()
 					{
 						SDL_FillRect( backbuffer, NULL, 0 );
 						print_string("Please press button for mapping", TextWhite, TextBlue, 37, 108, backbuffer->pixels);
-						bitmap_scale(0,0,320,240,sdl_screen->w,sdl_screen->h,320,0,(uint16_t* restrict)backbuffer->pixels,(uint16_t* restrict)sdl_screen->pixels);
-
 						while (SDL_PollEvent(&Event))
 						{
 							if (Event.type == SDL_KEYDOWN)
@@ -274,7 +272,7 @@ static void Input_Remapping()
 								}
 							}
 						}
-						SDL_Flip(sdl_screen);
+						Update_Video_Menu();
 					}
 				break;
             }
@@ -336,8 +334,7 @@ static void Input_Remapping()
 		if (currentselection == 12) print_string(text, TextRed, 0, 165, 65+2, backbuffer->pixels);
 		else print_string(text, TextWhite, 0, 165, 65+2, backbuffer->pixels);
 
-		bitmap_scale(0,0,320,240,sdl_screen->w,sdl_screen->h,320,0,(uint16_t* restrict)backbuffer->pixels,(uint16_t* restrict)sdl_screen->pixels);
-		SDL_Flip(sdl_screen);
+		Update_Video_Menu();
 	}
 
 	config_save();
@@ -516,8 +513,7 @@ void Menu()
             }
         }
 
-		bitmap_scale(0,0,320,240,sdl_screen->w,sdl_screen->h,320,0,(uint16_t* restrict)backbuffer->pixels,(uint16_t* restrict)sdl_screen->pixels);
-		SDL_Flip(sdl_screen);
+		Update_Video_Menu();
     }
 
     SDL_FillRect(sdl_screen, NULL, 0);

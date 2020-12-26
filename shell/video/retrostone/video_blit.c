@@ -78,6 +78,7 @@ void Video_Close()
 
 void Update_Video_Menu()
 {
+	SDL_SoftStretch(backbuffer, NULL, sdl_screen, NULL);
 	SDL_Flip(sdl_screen);
 }
 
@@ -92,11 +93,11 @@ void Update_Video_Ingame()
 	switch(option.fullscreen)
 	{
 		case 0:
-			bitmap_scale(0,0,IPPU.RenderedScreenWidth,IPPU.RenderedScreenHeight,IPPU.RenderedScreenWidth*2,sdl_screen->h, SNES_WIDTH*2, sdl_screen->w - (IPPU.RenderedScreenWidth*2),(uint16_t* restrict)GFX.Screen,(uint16_t* restrict)sdl_screen->pixels+(HOST_WIDTH_RESOLUTION-(IPPU.RenderedScreenWidth*2))/2+(HOST_HEIGHT_RESOLUTION-((HOST_HEIGHT_RESOLUTION)))/2*HOST_WIDTH_RESOLUTION);
+			bitmap_scale(0,0,IPPU.RenderedScreenWidth,IPPU.RenderedScreenHeight,IPPU.RenderedScreenWidth*2,sdl_screen->h, SNES_WIDTH, sdl_screen->w - (IPPU.RenderedScreenWidth*2),(uint16_t* restrict)GFX.Screen,(uint16_t* restrict)sdl_screen->pixels+(HOST_WIDTH_RESOLUTION-(IPPU.RenderedScreenWidth*2))/2+(HOST_HEIGHT_RESOLUTION-((HOST_HEIGHT_RESOLUTION)))/2*HOST_WIDTH_RESOLUTION);
 		break;
 		case 1:
 		case 2:
-			bitmap_scale(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight, sdl_screen->w, sdl_screen->h, SNES_WIDTH*2, 0, GFX.Screen, sdl_screen->pixels);
+			bitmap_scale(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight, sdl_screen->w, sdl_screen->h, SNES_WIDTH, 0, GFX.Screen, sdl_screen->pixels);
 		break;
 	}
 
