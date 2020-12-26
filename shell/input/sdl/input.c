@@ -61,7 +61,6 @@ uint32_t S9xReadJoypad(int32_t port)
 				{
 					case SDLK_RCTRL:
 					case SDLK_END:
-					case SDLK_ESCAPE:
 						emulator_state = 1;
 					break;
 				}
